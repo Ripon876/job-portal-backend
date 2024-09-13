@@ -1,13 +1,8 @@
-import server from "./app";
-import errorHandler from "errorhandler";
-import { PORT } from "@configs/appConfigs";
+import { config } from "dotenv";
+config();
 
-/**
- * Error Handler. Provides full stack
- */
-if (process.env.NODE_ENV === "development") {
-  server.use(errorHandler());
-}
+import { PORT } from "@constants/appContants";
+import server from "./app";
 
 // /**
 //  * Start server.
