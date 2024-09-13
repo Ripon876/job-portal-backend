@@ -1,10 +1,11 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import { IRequest } from "types/shared.types";
 
 type RequestHandler = (
-  req: Request,
+  req: IRequest,
   res: Response,
   next: NextFunction
-) => Promise<void>;
+) => Promise<void> | any;
 
 type CatchAsync = (fn: RequestHandler) => RequestHandler;
 
