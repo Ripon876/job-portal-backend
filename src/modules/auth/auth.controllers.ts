@@ -7,7 +7,7 @@ export const login = catchAsync(async (req, res) => {
 
   res.cookie("auth-token", token);
   res.status(200).json({
-    success: true,
+    status: "success",
     message: "Login successfull",
     token,
   });
@@ -18,7 +18,7 @@ export const signup = catchAsync(async (req, res) => {
   await authservices.signupUser(name, email, password);
 
   res.status(201).json({
-    success: true,
+    status: "success",
     message: "Signup successfull",
   });
 });

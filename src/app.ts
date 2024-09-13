@@ -41,7 +41,7 @@ app.use((err: any, req: any, res: any, next: any) => {
     message = err.message;
   }
 
-  res.status(statusCode).json({ success: false, message: message });
+  res.status(statusCode).json({ status: "error", message: message });
 });
 
 app.get("/", (req, res) => {
