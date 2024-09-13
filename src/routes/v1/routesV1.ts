@@ -1,9 +1,15 @@
 import { Router } from "express";
+import authRoutes from "@modules/auth/auth.routes";
 
 const router: Router = Router();
 
-router.get("/", (req, res) => {
-  res.send("Hello World! from v1");
-});
+const routes = [
+  {
+    path: "/auth",
+    router: authRoutes,
+  },
+];
+
+routes.forEach((route) => router.use(route.path, route.router));
 
 export default router;
