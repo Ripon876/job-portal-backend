@@ -10,6 +10,7 @@ const userSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    appliedJobs: [{ type: Schema.Types.ObjectId, ref: "Job" }],
   },
   {
     timestamps: true,

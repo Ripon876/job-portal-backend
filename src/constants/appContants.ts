@@ -11,3 +11,5 @@ export const DB_USER_NAME = process.env.DB_USER_NAME || "admin";
 export const DB_PASSWORD = process.env.DB_PASSWORD || "admin";
 export const DB_NAME = process.env.DB_NAME || "job-portal";
 export const DB_HOST_NAME = process.env.DB_HOST_NAME || "mydb";
+
+export const PAGINATION_FIELDS = ["page", "limit"];

@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { Types } from "mongoose";
 
 export type IUser = {
   _id: string;
@@ -9,3 +10,5 @@ export type IUser = {
 export type IRequest = Request & {
   user?: IUser;
 };
+
+export type ObjectId = Types.ObjectId;
