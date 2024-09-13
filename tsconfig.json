@@ -9,8 +9,13 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "src",
     "paths": {
+      "@shared/*": ["./shared/*"],
       "@routes/*": ["./routes/*"],
-      "@configs/*": ["./configs/*"]
+      "@constants/*": ["./constants/*"],
+      "@modules/*": ["./modules/*"],
+      "@helpers/*": ["./helpers/*"],
+      "@utils/*": ["./utils/*"],
+      "@middlewares/*": ["./middlewares/*"]
     }
   },
   "include": ["src/**/*.ts"],
