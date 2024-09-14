@@ -27,39 +27,42 @@ export const getJobById = async (jobId: string) => {
 
 // Get all jobs
 export const getJobs = async (
+  userId: string,
   query: Record<string, any> = {},
   paginationOptions: Record<string, number>
 ) => {
   const { page, skip, limit } = paginationOptions;
 
+  let appliedOnly = false;
+  let postedOnly = false;
+
+  if (query?.appliedOnly) {
+    appliedOnly = true;
+    delete query.appliedOnly;
+  }
+
+  if (query?.postedOnly) {
+    postedOnly = true;
+    delete query.postedOnly;
+  }
+
   if (query?.companyName) {
     query.companyName = { $regex: query.companyName, $options: "i" };
+  }
+
+  if (appliedOnly) {
+    const user = await User.findById(userId);
+    query._id = { $in: user?.appliedJobs };
+  }
+
+  if (postedOnly) {
+    query.postedBy = userId;
   }
 
   const jobs = await Job.find(query).skip(skip).limit(limit);
   const total = await Job.countDocuments(query);
 
-  const meta = {
-    total,
-    page,
-    limit,
-  };
-
-  return {
-    meta,
-    data: jobs,
-  };
-};
-
-// Get all jobs posted by a specific user
-export const getJobsByAdmin = async (
-  userId: string,
-  paginationOptions: Record<string, number>
-) => {
-  const { page, skip, limit } = paginationOptions;
-
-  const jobs = await Job.find({ postedBy: userId }).skip(skip).limit(limit);
-  const total = await Job.countDocuments();
+  console.log("query", query);
 
   const meta = {
     total,
@@ -120,11 +123,4 @@ export const applyForJob = async (jobId: ObjectId, userId: string) => {
   await user?.save();
 
   return job;
-};
-
-// Get jobs applied by a user
-export const getAppliedJobsByUser = async (userId: string) => {
-  const user = await User.findById(userId).populate("appliedJobs");
-
-  return user?.appliedJobs || [];
 };

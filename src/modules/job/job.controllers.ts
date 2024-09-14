@@ -17,13 +17,17 @@ export const createJob = catchAsync(async (req: IRequest, res: Response) => {
   });
 });
 
-// Get all jobs posted by the authenticated user
 export const getJobs = catchAsync(async (req: IRequest, res: Response) => {
+  const userId = req.user!._id;
   const paginationOptions = calculatePagination(
     pick(req.query, PAGINATION_FIELDS)
   );
   const query = pick(req.query, QUERY_FIELDS);
-  const { data, meta } = await jobServices.getJobs(query, paginationOptions);
+  const { data, meta } = await jobServices.getJobs(
+    userId,
+    query,
+    paginationOptions
+  );
 
   res.status(200).json({
     status: "success",
@@ -31,26 +35,6 @@ export const getJobs = catchAsync(async (req: IRequest, res: Response) => {
     meta,
   });
 });
-
-// Get all jobs posted by the authenticated user
-export const getJobsByAdmin = catchAsync(
-  async (req: IRequest, res: Response) => {
-    const paginationOptions = calculatePagination(
-      pick(req.query, PAGINATION_FIELDS)
-    );
-
-    const { data, meta } = await jobServices.getJobsByAdmin(
-      req.user!._id,
-      paginationOptions
-    );
-
-    res.status(200).json({
-      status: "success",
-      data,
-      meta,
-    });
-  }
-);
 
 // Update a job
 export const updateJob = catchAsync(async (req: IRequest, res: Response) => {
@@ -98,15 +82,3 @@ export const applyForJob = catchAsync(async (req: IRequest, res: Response) => {
     data: job,
   });
 });
-
-// Get all jobs applied by the authenticated user
-export const getAppliedJobsByUser = catchAsync(
-  async (req: IRequest, res: Response) => {
-    const jobs = await jobServices.getAppliedJobsByUser(req.user!._id);
-
-    res.status(200).json({
-      status: "success",
-      data: jobs,
-    });
-  }
-);

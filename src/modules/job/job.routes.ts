@@ -3,29 +3,26 @@ import * as jobControllers from "./job.controllers";
 import { isAuthenticated } from "@middlewares/authenticationMiddleware";
 import { isAdmin } from "@middlewares/isAdmin";
 import { isUser } from "@middlewares/isUser";
+import { validateId } from "@shared/validations";
 
 const router: Router = Router();
 
-// Routes for user
-router.get("/", isAuthenticated, isUser, jobControllers.getJobs);
-router.post("/:id/apply", isAuthenticated, isUser, jobControllers.applyForJob);
-router.get(
-  "/applied",
+router.get("/", isAuthenticated, jobControllers.getJobs);
+
+// User routes
+router.post(
+  "/:id/apply",
+  validateId("id"),
   isAuthenticated,
   isUser,
-  jobControllers.getAppliedJobsByUser
+  jobControllers.applyForJob
 );
 
-// Routes for admin
-router
-  .route("/admin")
-  .all(isAuthenticated, isAdmin)
-  .post(jobControllers.createJob)
-  .get(jobControllers.getJobsByAdmin);
-
+// Admin routes
+router.post("/admin", isAuthenticated, isAdmin, jobControllers.createJob);
 router
   .route("/:id")
-  .all(isAuthenticated, isAdmin)
+  .all(validateId("id"), isAuthenticated, isAdmin)
   .get(jobControllers.getJobById)
   .put(jobControllers.updateJob)
   .delete(jobControllers.deleteJob);
