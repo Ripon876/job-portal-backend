@@ -5,7 +5,11 @@ export const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const token = await authservices.loginUser(email, password);
 
-  res.cookie("auth-token", token);
+  res.cookie("auth-token", token, {
+    sameSite: "none",
+    httpOnly: true,
+    secure: true,
+  });
   res.status(200).json({
     status: "success",
     message: "Login successfull",
@@ -24,7 +28,11 @@ export const signup = catchAsync(async (req, res) => {
 });
 
 export const logout = catchAsync(async (req, res) => {
-  res.clearCookie("auth-token");
+  res.clearCookie("auth-token", {
+    sameSite: "none",
+    httpOnly: true,
+    secure: true,
+  });
   res.status(200).json({
     status: "success",
     message: "Logout successfull",
