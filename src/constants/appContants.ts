@@ -13,3 +13,4 @@ export const DB_NAME = process.env.DB_NAME || "job-portal";
 export const DB_HOST_NAME = process.env.DB_HOST_NAME || "mydb";
 
 export const PAGINATION_FIELDS = ["page", "limit"];
+export const QUERY_FIELDS = ["companyName", "location", "contract"];

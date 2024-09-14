@@ -25,12 +25,16 @@ export const getJobById = async (jobId: string) => {
   return job;
 };
 
-// Get a specific job
+// Get all jobs
 export const getJobs = async (
   query: Record<string, any> = {},
   paginationOptions: Record<string, number>
 ) => {
   const { page, skip, limit } = paginationOptions;
+
+  if (query?.companyName) {
+    query.companyName = { $regex: query.companyName, $options: "i" };
+  }
 
   const jobs = await Job.find(query).skip(skip).limit(limit);
   const total = await Job.countDocuments(query);
@@ -56,7 +60,7 @@ export const getJobsByAdmin = async (
 
   const jobs = await Job.find({ postedBy: userId }).skip(skip).limit(limit);
   const total = await Job.countDocuments();
-  
+
   const meta = {
     total,
     page,

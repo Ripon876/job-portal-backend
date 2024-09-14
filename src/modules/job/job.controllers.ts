@@ -4,7 +4,7 @@ import { IRequest } from "types/shared.types";
 import * as jobServices from "./job.services";
 import { calculatePagination } from "@helpers/calculatePagination";
 import { pick } from "@utils/pick";
-import { PAGINATION_FIELDS } from "@constants/appContants";
+import { PAGINATION_FIELDS, QUERY_FIELDS } from "@constants/appContants";
 import { Types } from "mongoose";
 
 // Create a new job
@@ -22,11 +22,8 @@ export const getJobs = catchAsync(async (req: IRequest, res: Response) => {
   const paginationOptions = calculatePagination(
     pick(req.query, PAGINATION_FIELDS)
   );
-
-  const { data, meta } = await jobServices.getJobs(
-    req.query,
-    paginationOptions
-  );
+  const query = pick(req.query, QUERY_FIELDS);
+  const { data, meta } = await jobServices.getJobs(query, paginationOptions);
 
   res.status(200).json({
     status: "success",
