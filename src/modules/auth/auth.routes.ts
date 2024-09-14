@@ -12,4 +12,6 @@ router
   .route("/signup")
   .post(validate(authValidations.signup), authControllers.signup);
 
+router.get("/logout", authControllers.logout);
+
 export default router;

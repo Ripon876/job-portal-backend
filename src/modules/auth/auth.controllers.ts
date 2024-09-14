@@ -22,3 +22,11 @@ export const signup = catchAsync(async (req, res) => {
     message: "Signup successfull",
   });
 });
+
+export const logout = catchAsync(async (req, res) => {
+  res.clearCookie("auth-token");
+  res.status(200).json({
+    status: "success",
+    message: "Logout successfull",
+  });
+});
