@@ -11,7 +11,7 @@ export const loginUser = async (email: string, password: string) => {
     throw new ApiError(404, "No user found with the provided email address.");
   }
 
-  const isPwdMatched = comparePassword(password, user.password);
+  const isPwdMatched = await comparePassword(password, user.password);
 
   if (!isPwdMatched) {
     throw new ApiError(401, "The password you entered is incorrect.");
