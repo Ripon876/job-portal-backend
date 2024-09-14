@@ -38,11 +38,19 @@ export const getJobs = catchAsync(async (req: IRequest, res: Response) => {
 // Get all jobs posted by the authenticated user
 export const getJobsByAdmin = catchAsync(
   async (req: IRequest, res: Response) => {
-    const jobs = await jobServices.getJobsByAdmin(req.user!._id);
+    const paginationOptions = calculatePagination(
+      pick(req.query, PAGINATION_FIELDS)
+    );
+
+    const { data, meta } = await jobServices.getJobsByAdmin(
+      req.user!._id,
+      paginationOptions
+    );
 
     res.status(200).json({
       status: "success",
-      data: jobs,
+      data,
+      meta,
     });
   }
 );

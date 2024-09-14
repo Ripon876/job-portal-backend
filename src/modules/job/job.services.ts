@@ -48,10 +48,25 @@ export const getJobs = async (
 };
 
 // Get all jobs posted by a specific user
-export const getJobsByAdmin = async (userId: string) => {
-  const jobs = await Job.find({ postedBy: userId });
+export const getJobsByAdmin = async (
+  userId: string,
+  paginationOptions: Record<string, number>
+) => {
+  const { page, skip, limit } = paginationOptions;
 
-  return jobs;
+  const jobs = await Job.find({ postedBy: userId }).skip(skip).limit(limit);
+  const total = await Job.countDocuments();
+  
+  const meta = {
+    total,
+    page,
+    limit,
+  };
+
+  return {
+    meta,
+    data: jobs,
+  };
 };
 
 // Update a job
