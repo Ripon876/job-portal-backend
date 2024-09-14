@@ -17,6 +17,7 @@ export const createJob = catchAsync(async (req: IRequest, res: Response) => {
   });
 });
 
+// Get all jobs with pagination and filtering  - get user specifc jobs by postedOnly and appliedOnly query.
 export const getJobs = catchAsync(async (req: IRequest, res: Response) => {
   const userId = req.user!._id;
   const paginationOptions = calculatePagination(

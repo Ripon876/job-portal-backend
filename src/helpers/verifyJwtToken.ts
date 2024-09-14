@@ -3,6 +3,7 @@ import { JWT_SECRET } from "@constants/appContants";
 import ApiError from "@utils/ApiError";
 import { IUser } from "types/shared.types";
 
+// Helper function to verify jwt token
 export const verifyJwtToken = (token: string): IUser => {
   try {
     const { _id, email, role } = jwt.verify(token, JWT_SECRET) as IUser;

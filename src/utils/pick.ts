@@ -1,3 +1,4 @@
+// Utility function to pick keys from an object
 export const pick = (obj: Record<string, any>, keys: string[]) => {
   const finalObj: Record<string, any> = {};
 

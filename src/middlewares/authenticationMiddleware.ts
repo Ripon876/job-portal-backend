@@ -2,6 +2,7 @@ import { verifyJwtToken } from "@helpers/verifyJwtToken";
 import { NextFunction, Response } from "express";
 import { IRequest, IUser } from "types/shared.types";
 
+// Middleware to check if user is authenticated
 export const isAuthenticated = (
   req: IRequest,
   res: Response,
